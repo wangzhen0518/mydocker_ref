@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	log "github.com/Sirupsen/logrus"
-	"github.com/urfave/cli"
-	"github.com/xianlubird/mydocker/cgroups/subsystems"
-	"github.com/xianlubird/mydocker/container"
-	"github.com/xianlubird/mydocker/network"
 	"os"
+
+	log "github.com/sirupsen/logrus"
+	"github.com/urfave/cli"
+	"github.com/wangzhen0518/mydocker_ref/cgroups/subsystems"
+	"github.com/wangzhen0518/mydocker_ref/container"
+	"github.com/wangzhen0518/mydocker_ref/network"
 )
 
 var runCommand = cli.Command{
@@ -51,7 +52,7 @@ var runCommand = cli.Command{
 			Usage: "container network",
 		},
 		cli.StringSliceFlag{
-			Name: "p",
+			Name:  "p",
 			Usage: "port mapping",
 		},
 	},
@@ -130,7 +131,7 @@ var execCommand = cli.Command{
 	Action: func(context *cli.Context) error {
 		//This is for callback
 		if os.Getenv(ENV_EXEC_PID) != "" {
-			log.Infof("pid callback pid %s", os.Getgid())
+			log.Infof("pid callback pid %d", os.Getgid())
 			return nil
 		}
 
@@ -190,9 +191,9 @@ var commitCommand = cli.Command{
 var networkCommand = cli.Command{
 	Name:  "network",
 	Usage: "container network commands",
-	Subcommands: []cli.Command {
+	Subcommands: []cli.Command{
 		{
-			Name: "create",
+			Name:  "create",
 			Usage: "create a container network",
 			Flags: []cli.Flag{
 				cli.StringFlag{
@@ -204,7 +205,7 @@ var networkCommand = cli.Command{
 					Usage: "subnet cidr",
 				},
 			},
-			Action:func(context *cli.Context) error {
+			Action: func(context *cli.Context) error {
 				if len(context.Args()) < 1 {
 					return fmt.Errorf("Missing network name")
 				}
@@ -217,18 +218,18 @@ var networkCommand = cli.Command{
 			},
 		},
 		{
-			Name: "list",
+			Name:  "list",
 			Usage: "list container network",
-			Action:func(context *cli.Context) error {
+			Action: func(context *cli.Context) error {
 				network.Init()
 				network.ListNetwork()
 				return nil
 			},
 		},
 		{
-			Name: "remove",
+			Name:  "remove",
 			Usage: "remove container network",
-			Action:func(context *cli.Context) error {
+			Action: func(context *cli.Context) error {
 				if len(context.Args()) < 1 {
 					return fmt.Errorf("Missing network name")
 				}

@@ -3,16 +3,17 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	log "github.com/Sirupsen/logrus"
-	"github.com/xianlubird/mydocker/cgroups"
-	"github.com/xianlubird/mydocker/cgroups/subsystems"
-	"github.com/xianlubird/mydocker/container"
-	"github.com/xianlubird/mydocker/network"
 	"math/rand"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
+	"github.com/wangzhen0518/mydocker_ref/cgroups"
+	"github.com/wangzhen0518/mydocker_ref/cgroups/subsystems"
+	"github.com/wangzhen0518/mydocker_ref/container"
+	"github.com/wangzhen0518/mydocker_ref/network"
 )
 
 func Run(tty bool, comArray []string, res *subsystems.ResourceConfig, containerName, volume, imageName string,
@@ -104,11 +105,11 @@ func recordContainerInfo(containerPID int, commandArray []string, containerName,
 	}
 	fileName := dirUrl + "/" + container.ConfigName
 	file, err := os.Create(fileName)
-	defer file.Close()
 	if err != nil {
 		log.Errorf("Create file %s error %v", fileName, err)
 		return "", err
 	}
+	defer file.Close()
 	if _, err := file.WriteString(jsonStr); err != nil {
 		log.Errorf("File write string error %v", err)
 		return "", err

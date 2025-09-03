@@ -1,14 +1,14 @@
 package main
 
 import (
-	log "github.com/Sirupsen/logrus"
-	"syscall"
-	"strconv"
-	"github.com/xianlubird/mydocker/container"
-	"fmt"
-	"io/ioutil"
 	"encoding/json"
+	"fmt"
 	"os"
+	"strconv"
+	"syscall"
+
+	log "github.com/sirupsen/logrus"
+	"github.com/wangzhen0518/mydocker_ref/container"
 )
 
 func stopContainer(containerName string) {
@@ -40,15 +40,15 @@ func stopContainer(containerName string) {
 	}
 	dirURL := fmt.Sprintf(container.DefaultInfoLocation, containerName)
 	configFilePath := dirURL + container.ConfigName
-	if err := ioutil.WriteFile(configFilePath, newContentBytes, 0622); err != nil {
-		log.Errorf("Write file %s error", configFilePath, err)
+	if err := os.WriteFile(configFilePath, newContentBytes, 0622); err != nil {
+		log.Errorf("Write file %s error: %v", configFilePath, err)
 	}
 }
 
 func getContainerInfoByName(containerName string) (*container.ContainerInfo, error) {
 	dirURL := fmt.Sprintf(container.DefaultInfoLocation, containerName)
 	configFilePath := dirURL + container.ConfigName
-	contentBytes, err := ioutil.ReadFile(configFilePath)
+	contentBytes, err := os.ReadFile(configFilePath)
 	if err != nil {
 		log.Errorf("Read file %s error %v", configFilePath, err)
 		return nil, err

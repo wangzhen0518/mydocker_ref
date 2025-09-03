@@ -3,11 +3,12 @@ package network
 import (
 	"fmt"
 	"net"
+	"os/exec"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 	"github.com/vishvananda/netlink"
-	log "github.com/Sirupsen/logrus"
-	"os/exec"
 )
 
 type BridgeNetworkDriver struct {
@@ -20,10 +21,10 @@ func (d *BridgeNetworkDriver) Name() string {
 func (d *BridgeNetworkDriver) Create(subnet string, name string) (*Network, error) {
 	ip, ipRange, _ := net.ParseCIDR(subnet)
 	ipRange.IP = ip
-	n := &Network {
-		Name: name,
+	n := &Network{
+		Name:    name,
 		IpRange: ipRange,
-		Driver: d.Name(),
+		Driver:  d.Name(),
 	}
 	err := d.initBridge(n)
 	if err != nil {
@@ -71,8 +72,6 @@ func (d *BridgeNetworkDriver) Connect(network *Network, endpoint *Endpoint) erro
 func (d *BridgeNetworkDriver) Disconnect(network Network, endpoint *Endpoint) error {
 	return nil
 }
-
-
 
 func (d *BridgeNetworkDriver) initBridge(n *Network) error {
 	// try to get bridge by name, if it already exists then just exit
@@ -147,7 +146,6 @@ func setInterfaceUP(interfaceName string) error {
 	}
 	return nil
 }
-
 
 // Set the IP addr of a netlink interface
 func setInterfaceIP(name string, rawIP string) error {
