@@ -1,10 +1,10 @@
 {
-	"ImportPath": "github.com/xianlubird/mydocker",
+	"ImportPath": "github.com/wangzhen0518/mydocker_ref",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v72",
 	"Deps": [
 		{
-			"ImportPath": "github.com/Sirupsen/logrus",
+			"ImportPath": "github.com/sirupsen/logrus",
 			"Comment": "v0.8.7-53-g446d1c1",
 			"Rev": "446d1c146faa8ed3f4218f056fcd165f6bcfda81"
 		},
