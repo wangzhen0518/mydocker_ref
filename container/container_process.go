@@ -1,10 +1,11 @@
 package container
 
 import (
-	log "github.com/Sirupsen/logrus"
 	"os"
 	"os/exec"
 	"syscall"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func NewParentProcess(tty bool) (*exec.Cmd, *os.File) {
